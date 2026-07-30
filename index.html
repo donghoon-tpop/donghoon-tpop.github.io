@@ -3,46 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>동훈의 홈페이지</title>
 
-    <style>
-        body {
-            max-width: 700px;
-            margin: 80px auto;
-            padding: 20px;
-            font-family: Arial, sans-serif;
-            line-height: 1.7;
-        }
+    <title>고동훈의 공부 기록</title>
 
-        h1 {
-            font-size: 40px;
-        }
-
-        a {
-            color: #0969da;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <h1>안녕하세요!</h1>
+    <header>
+        <h1>고동훈의 공부 기록</h1>
 
-    <p>
-        동훈의 GitHub Pages 홈페이지입니다.
-    </p>
+        <p>
+            AI, 정보이론, 통신을 공부하며 정리한 내용을 기록합니다.
+        </p>
+    </header>
 
-    <h2>소개</h2>
+    <main class="categories">
 
-    <p>
-        통신, 정보이론, 생성형 인공지능을 공부하고 있습니다.
-    </p>
-
-    <h2>링크</h2>
-
-    <p>
-        <a href="https://github.com/내깃허브아이디">
-            나의 GitHub
+        <a class="category-card" href="ai/">
+            <h2>AI</h2>
+            <p>
+                생성형 모델, VAE, Diffusion Model,
+                머신러닝에 관한 공부 기록
+            </p>
         </a>
-    </p>
+
+        <a class="category-card" href="information-theory/">
+            <h2>정보이론</h2>
+            <p>
+                Entropy, Mutual Information,
+                I-MMSE와 관련된 공부 기록
+            </p>
+        </a>
+
+        <a class="category-card" href="communications/">
+            <h2>통신</h2>
+            <p>
+                OFDM, 채널 추정, 다중 사용자 검출,
+                신호처리에 관한 공부 기록
+            </p>
+        </a>
+
+    </main>
 </body>
 </html>
