@@ -1,1 +1,83 @@
-https://github.com/donghoon-tpop/donghoon-tpop.github.io/blob/main/AI/VAE/index.html
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>VAE 공부 기록</title>
+
+    <link rel="stylesheet" href="../../style.css">
+</head>
+
+<body>
+
+    <header class="article-header">
+
+        <nav class="breadcrumb">
+            <a href="../../">홈</a>
+            <span>›</span>
+            <a href="../">AI</a>
+            <span>›</span>
+            <span>VAE</span>
+        </nav>
+
+        <h1>Variational Autoencoder</h1>
+
+        <p>
+            VAE를 공부하면서 이해한 개념과 질문들을 정리한 페이지입니다.
+        </p>
+
+    </header>
+
+    <main class="article">
+
+        <section>
+            <h2>VAE란 무엇인가?</h2>
+
+            <p>
+                Variational Autoencoder는 Kingma와 Welling의 2022년 연구에서 소개된 생성형 모델이다.
+              이 모델은 Auto-Encoding Variational Bayes라는 보다 일반적인 posterior distribution 추정 방식을 
+              recognition model에 적용한 case라고 할 수 있다.
+            </p>
+
+            <p>
+                이 AEVE scheme을 이해하기 위해 역으로 조금 더 구체적인 neural network의 구조를 먼저 이해하는 것이 
+              더 바람직할 듯하다. 실제로 저자들 또한 이러한 일반적인 수학적 아이디어를 neural network라는 대상을 관찰함으로써
+              얻어냈다고 생각하는 것이 더 합리적일 것이다.
+            </p>
+
+            <p>
+                기존의 autoencoder는 입력을 latent vector로 압축하고 이를 다시 출력으로 내보내는 방식이다. 
+              Autoencoder의 목적은 실제 입력과 복원 결과, 이 reconstruction loss를 최소화하는 것이다. 
+              이러한 autoencoder를 일반적인 생성 모델로써 사용할 때 아주 많은 문제가 발생한다. 
+              생성 모델로 사용하기 위해서 decoder에 새로운 latent vector z를 넣고 새로운 data x를 만들어낼 수 있어야 한다. 
+              그러나 일반적인 autoencoder에서는 어떤 z를 sampling해야 그럴듯한 x가 나올지 정해져 있지 않다.
+              학습 데이터들이 latent space의 몇몇 좁은 영역에서만 존재할 수도 있는 것이다. 
+
+              추가적으로, 기존의 autoencoder에는 불확실성이 적다. x를 z로 변환하는 encoding 과정, 그리고 z를 x로 변환하는 decoding 과정 모두
+              parameter에 따라 deterministic하게 이루어지는 것이다. 그러나 특정 입력이 암시하는 latent vector는 실제로 '분포'이며, 반대로
+              특정 latent vector가 나타내는 입력 또한 '분포'이다. 
+            </p>
+
+          <h2>VAE의 potential</h2>
+          <p>
+              따라서 우리는 아래 조건을 만족하는 model을 상상할 수 있을 것이다. 
+              
+          </p>
+        </section>
+
+    </main>
+
+
+    <footer class="article-footer">
+        <a href="../">
+            ← AI 공부 기록으로 돌아가기
+        </a>
+    </footer>
+
+</body>
+</html>
