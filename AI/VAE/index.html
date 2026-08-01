@@ -107,7 +107,21 @@
               encode와 decoder의 parameter를 높이는 것은 어렵지 않을 것이다. 
 
               다음으로 reconstruction loss 항에 대해 살펴보자. 먼저, encoder parameter가 고정되어 있을 때 decoder parameter에 대해 이 항을 미분해보자.
-              Encoder parameter가 고정되어 있으므로 z의 분포 또한 고정되어 있다고 가정할 수 있으며, 이에 따라 해당 z들이 x
+              Encoder parameter가 고정되어 있으므로 z의 분포 또한 고정되어 있다고 가정할 수 있으며, 이에 따라 해당 z들이 x를 만들어내는 likelihood를 높여야 한다.
+              z가 주어졌을 때 decoder parameter에 의해 결정되는 x의 conditional likelihood는 closed form의 형태로 계산될 수 있다. 따라서, 주어진 x에 대해 몇 개의 z를 sampling한 후, 
+              stochastic gradient ascent를 활용하여 decoder의 parameter를 update할 수 있을 것이다. 두 번째로, decoder parameter가 고정되어 있을 때 encoder의 parameter에 대해 이 항을 미분해보자.
+              해당 미분 식은 encoder에 의한 z의 분포에 따라 z를 random sampling하고, 해당 z에 의해 결정되는 x의 likelihood와 q의 encoder parameter에 대한 gradient와의 곱으로 나타낼 수 있음이 알려져 있다.
+              여기서 reparameterization trick의 필요성이 대두된다. Reparameterization trick은 loss function을 encoder parameter에 의한 deterministic한 식처럼 만들고, 이는 gradient가 encoder와 decoder를 
+              통해 잘 흘러가도록 만든다. 
+
+              만약 reparameterization을 사용하지 않으면, model은 한 번 우연히 뽑힌 z의 결과만을 보고 분포 전체를 어느 방향으로 옮겨야 할지 결정해야 하는 문제가 생긴다. 
+              예를 들어, encoder 평균을 오른쪽으로 움직이는 것이 전체적으로 reconstruction을 개선한다면 참 gradient는 그 사실을 꾸준히 알려줘야 한다. 
+              그런데 sample을 하나만 뽑아 gradient를 추정하면, update의 방향과 크기가 계속 흔들릴 수 있는 것이다. 
+
+              여러 sample을 아주 많이 평균 내면 올바른 parameter 수정 방향이 나오게 되지만, 한두 sample만 보면 signal이 크게 흔들린다. 
+              그러나 reparameterization은 정확히 어떤 방향으로 z 분포를 수정해야 loss가 줄어들지에 대한 방향성을 활용한다. 
+              따라서 훨씬 적은 수의 sample로도 loss를 유의미하게 줄일 수 있게 되는 것이다. 
+              
             </p>
         </section>
 
