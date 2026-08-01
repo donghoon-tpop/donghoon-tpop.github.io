@@ -67,7 +67,48 @@
           <p>
               따라서 우리는 아래 조건을 만족하는 model을 상상할 수 있을 것이다. 
               
+              1. Latent vector z는 특정 분포로 normalize되어야 한다. 가장 대표적인 것이 바로 standard Gaussian일 것이다.
+              2. 입력은 z가 아닌, z의 '분포'를 결정한다. 이 또한 Gaussian이라고 가정할 수 있다.
+              3. z는 출력이 아닌, 출력의 '분포'를 결정한다. 이 또한 Gaussian이라고 가정할 수 있다.
+
+              이러한 모델은 latent vector의 구조를 분석함으로써 구체적 특성을 가진 입력을 복원하기 위한 sampling을 가능하게 한다.
+              또한, z와 x 분포가 모두 각각 x와 z에 의해 확률적으로 결정되므로, '창조의 불확실성'을 가질 수도 있다. 
+
+              또한, 만약 2번과 3번 조건이 없다면, latent의 분포가 대략적으로 정해져 있다고 하더라도 latent의 분포가 explanable하지는 않게 될 것이다.
+              아주 조금 떨어져 있는 latent인데, 이 각 latent가 복원하는 x는 매우 상이할 수 있게 되기 때문이다. 
           </p>
+
+          <h2>VAE의 학습 방법</h2>
+          <p>
+              그렇다면 우리는 어떻게 encoder와 decoder의 학습 알고리즘을 잘 설정할 수 있을까?
+              가장 먼저 드는 생각은 아래와 같다.
+
+              1. 먼저 현재 encoder가 뽑은 z가 충분히 '그럴 듯'하다면, 해당 z로부터 decoder는 x를 뽑아낼 가능성이 높아야 할 것이다.
+              2. 마찬가지로 현재 decoder가 충분히 '그럴 듯'하다면, 해당 decoder가 주어진 x를 잘 설명하는 z들은, encoder가 더 많이 만들어내야 할 것이다.
+
+              p(x)를 z를 활용하여 전개해 나가다보면, 정확하게 이 두 조건이 항으로 나타나는 것을 확인할 수 있다. 
+              놀라운 것은 저자들이 제안한 ELBO, estimation lower bound가 true posterior를 estimate posterior로 근사한 식이라는 사실이다.
+
+              즉, 근사적 posterior를 활용하여 marginal likelihood를 구할 경우 우리가 최대화하고 싶은 실제 식의 lower bound가 된다.
+
+              따라서 우리는 이 ELBO를 최대화하는 것으로 목표를 전환할 것이다.
+
+              이제 ELBO를 활용하여 encoder 및 decoder 모델을 학습시켜야 한다. 저자들은 여기서 reparameterization trick이라는 아이디어를 제시한다.
+              만약 전통적인 방식으로 학습을 진행한다면 어떻게 될까?
+
+              일단 ELBO를 전개하면 두 개의 항이 관찰된다. 첫 번째 항은 KL divergence 항으로, encoder가 생성하는 z의 분포가 실제 z의 분포, 즉 prior와 얼마나
+              닮아있는지를 나타낸다. 두 번째 항은 encoder가 만들어 낸 z의 분포가 얼마나 x의 likelihood를 높이는지 나타내는 항이다. 
+
+              이제 이 두 항의 합이 최대가 되는 encoder와 decoder의 parameter 조합을 찾는 것이 x의 marginal likelihood를 최대로 높일 수 있는 근사 조건인 것이다.
+
+              그렇다면 gradient ascent 방식을 활용하여 최적의 parameter들을 찾아보기 위해 해당 항들을 직접 미분해보자. 
+
+              먼저 KL divergence 항의 경우 encoder와 decoder의 parameter에 대해 closed form으로 쉽게 계산되는 경우가 많다. 따라서 해당 항의 gradient를 구하고 
+              encode와 decoder의 parameter를 높이는 것은 어렵지 않을 것이다. 
+
+              다음으로 reconstruction loss 항에 대해 살펴보자. 먼저, encoder parameter가 고정되어 있을 때 decoder parameter에 대해 이 항을 미분해보자.
+              Encoder parameter가 고정되어 있으므로 z의 분포 또한 고정되어 있다고 가정할 수 있으며, 이에 따라 해당 z들이 x
+            </p>
         </section>
 
     </main>
