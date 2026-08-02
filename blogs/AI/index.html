@@ -1,1 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
 
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Artificial Intelligence | Donghoon Ko</title>
+
+  <!-- 전체 사이트 공통 디자인 -->
+  <link rel="stylesheet" href="/style.css">
+
+  <!-- AI 페이지 전용 디자인 -->
+  <link rel="stylesheet" href="/blogs/ai/style.css">
+</head>
+
+<body class="subpage-body ai-page-body">
+
+  <header class="site-header">
+    <a href="/" class="logo">
+      Donghoon Ko
+    </a>
+
+    <nav class="navigation" aria-label="Main navigation">
+      <a href="/">Home</a>
+
+      <a href="/publications/">
+        Publications
+      </a>
+
+      <div class="nav-item has-dropdown">
+        <a href="/blogs/" class="nav-link active">
+          Blogs
+        </a>
+
+        <div class="dropdown-menu">
+          <p class="dropdown-title">Categories</p>
+
+          <a href="/blogs/ai/">
+            <span class="dropdown-name">AI</span>
+
+            <span class="dropdown-description">
+              Generative models and machine learning
+            </span>
+          </a>
+
+          <a href="/blogs/information-theory/">
+            <span class="dropdown-name">
+              Information Theory
+            </span>
+
+            <span class="dropdown-description">
+              Information, estimation, and probability
+            </span>
+          </a>
+
+          <a href="/blogs/linear-algebra/">
+            <span class="dropdown-name">
+              Linear Algebra
+            </span>
+
+            <span class="dropdown-description">
+              Vector spaces and linear transformations
+            </span>
+          </a>
+
+          <a href="/blogs/communication-theory/">
+            <span class="dropdown-name">
+              Communication Theory
+            </span>
+
+            <span class="dropdown-description">
+              Channels, signals, detection, and coding
+            </span>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="ai-page">
+
+    <!-- 상단 소개 -->
+    <section class="ai-hero">
+
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/blogs/">Blogs</a>
+        <span aria-hidden="true">/</span>
+        <span>AI</span>
+      </nav>
+
+      <p class="ai-eyebrow">
+        Study Notes
+      </p>
+
+      <h1 class="ai-title">
+        Artificial<br>
+        Intelligence
+      </h1>
+
+      <p class="ai-description">
+        Notes on generative models, variational inference,
+        diffusion models, machine learning, and the ideas
+        that connect them.
+      </p>
+
+    </section>
+
+    <!-- 주제 목록 -->
+    <section
+      class="ai-topics"
+      aria-labelledby="topics-title"
+    >
+      <div class="section-heading">
+        <p class="section-label">Explore</p>
+
+        <h2 id="topics-title">
+          Study Topics
+        </h2>
+      </div>
+
+      <div class="topic-grid">
+
+        <!-- Variational Inference -->
+        <article class="topic-panel">
+          <header class="topic-header">
+            <h3>Variational Inference</h3>
+
+            <p>
+              Approximate posterior inference,
+              ELBO, and latent-variable learning.
+            </p>
+          </header>
+
+          <div class="note-list">
+            <a href="/blogs/ai/elbo/" class="note-link">
+              <span>
+                <strong>Understanding the ELBO</strong>
+                <small>
+                  Evidence, lower bounds, and optimization
+                </small>
+              </span>
+
+              <span class="note-arrow" aria-hidden="true">↗</span>
+            </a>
+
+            <a href="/blogs/ai/posterior/" class="note-link">
+              <span>
+                <strong>Why the Posterior Matters</strong>
+                <small>
+                  The role of p(z|x) in generative learning
+                </small>
+              </span>
+
+              <span class="note-arrow" aria-hidden="true">↗</span>
+            </a>
+
+            <a
+              href="/blogs/ai/reparameterization/"
+              class="note-link"
+            >
+              <span>
+                <strong>The Reparameterization Trick</strong>
+                <small>
+                  Stable gradients through random sampling
+                </small>
+              </span>
+
+              <span class="note-arrow" aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Generative Models -->
+        <article class="topic-panel">
+          <header class="topic-header">
+            <h3>Generative Models</h3>
+
+            <p>
+              Models that learn how observed data
+              may have been generated.
+            </p>
+          </header>
+
+          <div class="note-list">
+            <a href="/blogs/ai/vae/" class="note-link">
+              <span>
+                <strong>Variational Autoencoders</strong>
+                <small>
+                  Encoder, decoder, latent space, and likelihood
+                </small>
+              </span>
+
+              <span class="note-arrow" aria-hidden="true">↗</span>
+            </a>
+
+            <a
+              href="/blogs/ai/diffusion-models/"
+              class="note-link"
+            >
+              <span>
+                <strong>Diffusion Models</strong>
+                <small>
+                  Noise, denoising, and generative processes
+                </small>
+              </span>
+
+              <span class="note-arrow" aria-hidden="true">↗</span>
+            </a>
+
+            <a
+              href="/blogs/ai/score-based-models/"
+              class="note-link"
+            >
+              <span>
+                <strong>Score-based Models</strong>
+                <small>
+                  Learning gradients of data distributions
+                </small>
+              </span>
+
+              <span class="note-arrow" aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Foundations -->
+        <article class="topic-panel">
+          <header class="topic-header">
+            <h3>Machine Learning Foundations</h3>
+
+            <p>
+              Mathematical and conceptual foundations
+              behind modern learning systems.
+            </p>
+          </header>
+
+          <div class="note-list">
+            <a
+              href="/blogs/ai/kernel-methods/"
+              class="note-link"
+            >
+              <span>
+                <strong>Kernel Methods</strong>
+                <small>
+                  Similarity, feature spaces, and the kernel trick
+                </small>
+              </span>
+
+              <span class="note-arrow" aria-hidden="true">↗</span>
+            </a>
+
+            <a
+              href="/blogs/ai/gaussian-processes/"
+              class="note-link"
+            >
+              <span>
+                <strong>Gaussian Processes</strong>
+                <small>
+                  Distributions over functions
+                </small>
+              </span>
+
+              <span class="note-arrow" aria-hidden="true">↗</span>
+            </a>
+
+            <a href="/blogs/ai/optimization/" class="note-link">
+              <span>
+                <strong>Optimization</strong>
+                <small>
+                  Gradients, objectives, and loss landscapes
+                </small>
+              </span>
+
+              <span class="note-arrow" aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Papers -->
+        <article class="topic-panel">
+          <header class="topic-header">
+            <h3>Paper Notes</h3>
+
+            <p>
+              Personal reading notes on influential
+              papers and research ideas.
+            </p>
+          </header>
+
+          <div class="note-list">
+            <a
+              href="/blogs/ai/papers/aevb/"
+              class="note-link"
+            >
+              <span>
+                <strong>Auto-Encoding Variational Bayes</strong>
+                <small>
+                  Kingma and Welling
+                </small>
+              </span>
+
+              <span class="note-arrow" aria-hidden="true">↗</span>
+            </a>
+
+            <a
+              href="/blogs/ai/papers/diffusion/"
+              class="note-link"
+            >
+              <span>
+                <strong>
+                  Deep Unsupervised Learning Using
+                  Nonequilibrium Thermodynamics
+                </strong>
+
+                <small>
+                  Sohl-Dickstein et al.
+                </small>
+              </span>
+
+              <span class="note-arrow" aria-hidden="true">↗</span>
+            </a>
+
+            <a
+              href="/blogs/ai/papers/score-matching/"
+              class="note-link"
+            >
+              <span>
+                <strong>Score Matching and Denoising</strong>
+                <small>
+                  Connections between scores and noise
+                </small>
+              </span>
+
+              <span class="note-arrow" aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+  </main>
+
+</body>
+</html>
