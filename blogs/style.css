@@ -7,7 +7,9 @@ body.subpage-body {
   min-height: 100vh;
 }
 
-.
+.dropdown-menu {
+  z-index: 1100;
+}
 
 .page-eyebrow {
   margin-bottom: 18px;
