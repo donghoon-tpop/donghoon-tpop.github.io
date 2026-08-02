@@ -66,12 +66,6 @@ body.subpage-body {
 .blogs-hero {
   max-width: 760px;
   margin-bottom: 64px;
-
-  opacity: 0;
-  transform: translateY(20px);
-
-  animation: fadeInUp 0.9s ease forwards;
-  animation-delay: 0.15s;
 }
 
 .page-eyebrow {
@@ -118,12 +112,6 @@ body.subpage-body {
   gap: 22px;
 
   border-top: 1px solid #d9d9d9;
-
-  opacity: 0;
-  transform: translateY(20px);
-
-  animation: fadeInUp 0.9s ease forwards;
-  animation-delay: 0.45s;
 }
 
 
