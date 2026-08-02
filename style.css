@@ -1,3 +1,7 @@
+:root {
+  --header-height: 96px;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -31,16 +35,17 @@ body {
   position: fixed;
   top: 0;
   left: 0;
+  right: 0;
 
   width: 100%;
-  min-height: 96px;
-  padding: 32px 5%;
+  height: var(--header-height);
+  padding: 0 5%;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  z-index: 1000;
+  z-index: 9999;
 
   background-color: #ffffff;
   border-bottom: 1px solid rgba(0, 0, 0, 0.04);
@@ -298,9 +303,13 @@ body {
 ========================= */
 
 @media (max-width: 600px) {
+  :root {
+    --header-height: 76px;
+  }
+
   .site-header {
-    min-height: 76px;
-    padding: 24px 6%;
+    height: var(--header-height);
+    padding: 0 6%;
   }
 
   .logo {
