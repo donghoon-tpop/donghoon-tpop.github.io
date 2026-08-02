@@ -161,52 +161,6 @@ body {
   }
 }
 
-
-/* =========================
-   모바일 화면
-========================= */
-
-@media (max-width: 600px) {
-  .site-header {
-    padding: 24px 6%;
-  }
-
-  .logo {
-    display: none;
-  }
-
-  .navigation {
-    width: 100%;
-
-    justify-content: center;
-    gap: 24px;
-  }
-
-  .navigation a {
-    font-size: 0.85rem;
-  }
-
-  .intro {
-    width: 88%;
-  }
-
-  .intro-title {
-    margin-bottom: 20px;
-  }
-}
-
-
-@media (prefers-reduced-motion: reduce) {
-  .site-header,
-  .intro-title,
-  .intro-description {
-    opacity: 1;
-    transform: none;
-    animation: none;
-  }
-}
-
-
 .nav-item {
   position: relative;
 }
@@ -271,4 +225,60 @@ body {
 
 .dropdown-menu a::after {
   display: none;
+}
+
+/* =========================
+   모바일 화면
+========================= */
+
+@media (max-width: 600px) {
+  .site-header {
+    padding: 24px 6%;
+  }
+
+  .logo {
+    display: none;
+  }
+
+  .navigation {
+    width: 100%;
+
+    justify-content: center;
+    gap: 24px;
+  }
+
+  .navigation a {
+    font-size: 0.85rem;
+  }
+
+  .intro {
+    width: 88%;
+  }
+
+  .intro-title {
+    margin-bottom: 20px;
+  }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header,
+  .intro-title,
+  .intro-description {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .dropdown-menu {
+    right: -10px;
+    width: 210px;
+  }
+
+  .dropdown-menu a {
+    padding: 11px 15px;
+    font-size: 0.82rem;
+  }
 }
