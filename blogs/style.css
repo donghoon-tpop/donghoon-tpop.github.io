@@ -1,0 +1,156 @@
+/* =========================
+   Blogs 페이지
+========================= */
+
+body.subpage-body {
+  display: block;
+  min-height: 100vh;
+}
+
+.blogs-page {
+  width: min(1100px, 88%);
+  margin: 0 auto;
+
+  padding-top: 180px;
+  padding-bottom: 100px;
+}
+
+
+/* 페이지 소개 영역 */
+
+.blogs-header {
+  max-width: 720px;
+  margin-bottom: 80px;
+
+  opacity: 0;
+  transform: translateY(24px);
+
+  animation: fadeInUp 1s ease forwards;
+  animation-delay: 0.2s;
+}
+
+.page-eyebrow {
+  margin-bottom: 18px;
+
+  color: #999999;
+
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.page-title {
+  margin-bottom: 24px;
+
+  color: #111111;
+
+  font-size: clamp(3.5rem, 8vw, 6.5rem);
+  font-weight: 600;
+  letter-spacing: -0.055em;
+  line-height: 0.95;
+}
+
+.page-description {
+  max-width: 600px;
+
+  color: #666666;
+
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  line-height: 1.75;
+}
+
+
+/* 카테고리 목록 */
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  border-top: 1px solid #dddddd;
+
+  opacity: 0;
+  transform: translateY(24px);
+
+  animation: fadeInUp 1s ease forwards;
+  animation-delay: 0.6s;
+}
+
+.category-card {
+  position: relative;
+
+  min-height: 260px;
+  padding: 34px 32px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  color: #111111;
+  text-decoration: none;
+
+  border-bottom: 1px solid #dddddd;
+
+  transition:
+    background-color 0.3s ease,
+    transform 0.3s ease;
+}
+
+/* 왼쪽 열과 오른쪽 열 사이의 선 */
+.category-card:nth-child(odd) {
+  border-right: 1px solid #dddddd;
+}
+
+.category-card:hover {
+  background-color: #f7f7f7;
+}
+
+.category-number {
+  color: #aaaaaa;
+
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+}
+
+.category-content {
+  margin-top: auto;
+}
+
+.category-content h2 {
+  margin-bottom: 14px;
+
+  color: #171717;
+
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  font-weight: 550;
+  letter-spacing: -0.035em;
+}
+
+.category-content p {
+  max-width: 380px;
+
+  color: #777777;
+
+  font-size: 0.92rem;
+  line-height: 1.65;
+}
+
+.category-arrow {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+
+  color: #999999;
+
+  font-size: 1.15rem;
+
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.category-card:hover .category-arrow {
+  color: #111111;
+  transform: translate(3px, -3px);
+}
