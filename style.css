@@ -299,6 +299,7 @@ body {
 
 @media (max-width: 600px) {
   .site-header {
+    min-height: 76px;
     padding: 24px 6%;
   }
 
@@ -308,7 +309,6 @@ body {
 
   .navigation {
     width: 100%;
-
     justify-content: center;
     gap: 24px;
   }
