@@ -33,13 +33,17 @@ body {
   left: 0;
 
   width: 100%;
+  min-height: 96px;
   padding: 32px 5%;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  z-index: 100;
+  z-index: 1000;
+
+  background-color: #ffffff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
 }
 
 .home-page .site-header {
