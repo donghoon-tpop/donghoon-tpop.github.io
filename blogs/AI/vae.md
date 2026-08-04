@@ -1,0 +1,218 @@
+---
+layout: post
+
+title: Understanding Variational Autoencoders
+short_title: VAE
+
+category_name: AI
+category_url: /blogs/AI/
+post_category: Variational Inference
+
+lead: >-
+  VAE의 문제의식과 encoder, decoder,
+  latent variable의 관계를 직관적으로 정리합니다.
+
+updated: August 2026
+series: AI Study Notes
+
+permalink: /blogs/AI/vae/
+
+math: true
+
+toc:
+  - id: motivation
+    label: Motivation
+
+  - id: Unifying the Approaches
+    label: Unifying the Approaches
+
+  - id: Training Algorithm
+    label: Training Algorithm
+
+back_url: /blogs/AI/
+back_label: Back to AI
+
+next_url: /blogs/AI/elbo/
+next_label: Understanding the ELBO
+---
+
+<section id="motivation" markdown="1">
+
+## 1. Motivation
+
+Variational Autoencoder(이하 VAE)가 등장하게 된 배경을 살펴보기 위해서는 아래와 같은 역사적 배경을 이해해야 한다.
+
+먼저 우리가 neural network를 사용하여 데이터를 학습하는 것이 데이터의 joint probability distribution을 이해하는 것과 동일한 맥락이라는 점을 고려하자.
+
+**1\) Probabilistic Latent Variable Model**
+    
+오래전부터 연구자들은 관측 데이터 $x$가 직접 만들어진 것이 아니라, **눈에 보이지 않는 어떤 원인 $z$로부터 간접적으로 생성**된 것이라고 생각했다.
+
+*Calvin Luo*는 이를 플라톤의 *Allegory of the Cave*에서의 비유로 설명하였다. 동굴 안에 갇혀 거주하는 인간들은 외부의 3차원 물체들이 동굴 내부의 불에 의해 투영한 2차원 그림자만으로 해당 물체들을 인식할 것이다.
+
+마찬가지로 우리가 관찰하는 데이터 $x$는 보다 본질적인 원인 $z$로부터 형성된 것이라는 heuristic한 추론이 가능하다. (물론 보통 latent variable은 관측 데이터보다 훨씬 적은 차원의 수로 표현되므로, 플라톤의 비유와는 다소 차이가 존재한다.)
+
+이를 위한 probabilistic latent variable model은 데이터가 어떻게 생성되는지 보다 근거 있게 설명할 수 있었다. 그러나 이 방법에는 학습과 추론이 어렵다는 한계가 존재했다.
+
+생성형 모델에서는 $z$를 입력하여 $x$를 만드는 방향성으로 생성이 진행된다. 그러나 실제로 학습을 진행할 때 필요한 것은 $x$가 주어졌을 때 $z$의 분포를 추론하는 것이다.
+
+이를 **posterior inference**라고 한다. 
+
+간단한 모델에서는 이 방향성으로의 추론이 가능하지만, 여러 층의 random variable과 nonlinear neural network 구조에서는 $p_\theta(z \mid x)$를 정확히 계산하기 매우 어려워지는 것이다. 따라서 표현력이 좋은 생성 모델을 만들고자 할수록 그 모델의 posterior를 계산하기 어려워진다는 trade-off로 인해 bottleneck이 생기게 되었다. 
+
+이러한 문제를 해결하기 위해 몇 가지 흐름이 탄생하였다. 1990년도 연구자들이 제안한 wake-sleep algorithm (generative network와 recognition network를 번갈아 학습시키는 알고리즘)과, 통계학과 머신러닝에서 등장한 variational inference가 그것이다. 
+
+우리가 특히 주목해야 할 것은 이 variational inference이다. 진짜 posterior를 계산하기 어려우므로, 이를 근사하는 $q(z)$를 학습하는 것이다. 그러나 이 variational inference에서는 일반적인 probabilistic model에 적용하기 어렵다는 치명적인 단점이 존재하였다. 
+
+**2\) Autoencoders**
+
+앞선 흐름과는 별개로 Autoencoder가 발전하고 있었다. 일반적인 autoencoder는 
+$$
+x \rightarrow z \rightarrow \tilde{x}
+$$
+의 구조를 가지고 있다. 즉, encoder가 데이터를 짧은 code로 압축하고 decoder가 그 code에서 원래 데이터를 복원하는 것이다.
+
+이는 back-propagation으로 쉽게 학습할 수 있다는 큰 장점이 존재한다. 그러나 일반 autoencoder의 latent vector를 생성형 모델을 위한 그것으로 사용하기에는 어려움이 있다.
+각 이미지를 latent space의 특정 위치에 잘 배치했다고 해도, 데이터가 존재하지 않는 빈 latent space는 어디인지, latent vector는 실제로 어떻게 분포되어 있는지, 그리고 무엇보다 **임의로 뽑은 latent vector가 정상적인 출력을 생성할지** 알 수 없다는 것이다. 
+
+즉, 엄밀한 의미에서 autoencoder는 확률분포를 학습하는 생성모델은 아니었던 것이다. 
+<aside class="note-box">
+  <p class="box-label">Intuition</p>
+
+  <p>
+  VAE 탄생 이전 통계학에서의 variational inference와 머신러닝에서 autoencoder라는 별개의 두 흐름이 존재했다.
+  </p>
+</aside>
+
+</section>
+
+<section id="Unifying the Approaches" markdown="1">
+
+## 2. Unifying the Approaches
+
+문제를 다시 살펴보자. Variational inference는 실제 생성모델의 목표를 달성하고자 제안된 방식이지만 학습이 어렵다는 문제가 존재했고, 다른 한편에서 autoencoder는 쉽게 학습할 수 있지만 이를 생성 모델로 활용하기 어렵다는 단점이 존재했다.
+
+그렇다면 neural network에 variational inference의 원리를 적용시킬 수는 없을까? 이러한 문제의식에서 탄생한 것이 auto-encoding variational Bayes이다. 
+
+직관적으로는 아래와 같이 생각해볼 수 있을 것이다. 
+
+- Autoencoder에서 Latent vector는, 비록 고차원 공간에 퍼져있을지라도, 우리가 설명 가능한, 즉 tractable한 분포를 따라야 한다.
+- Latent vector로부터 생성될 수 있는 출력은 확률 분포를 따라야 한다. 마치 키가 큰 부모에게서 키가 큰 자식이 태어날 가능성이 높지만 여러가지 요인들로 그렇지 않은 자녀가 태어날 수 있는 것과도 같다.
+- 위 예시에서 자식과 부모의 순서를 뒤집어 생각해 보면, 특정 입력으로부터 얻을 수 있는 latent vector 또한 확률 분포를 따라야 한다.  
+
+예를 들어, 위 세 개의 분포가 모두 Gaussian distribution을 따른다면 어떨까? 실제로 **$z$** 의 prior 만을 standard Gaussian 으로 고정하고 후자의 두 Gaussian (혹은 binomial) distribution 의 평균과 분산을 학습하는 것이 VAE 이다. 
+
+
+</section>
+
+<section id="Training Algorithm" markdown="1">
+
+## 3. Training Algorithm
+
+**1\) Evidence Lower Bound (ELBO)**
+
+*Kingma*와 *Welling*의 연구 이전에도 variational inference의 도구로서 ELBO의 개념이 활용되어 왔다. 
+
+먼저 우리의 목적은 주어진 생성 모델이 데이터셋 $x$를 생성해낼 log-likelihood를 최대화하는 것이다. 
+이는 수학적이라기보다는 철학적인, 아주 자명한 목표이다.
+
+그러나 복잡한 latent variable model에서는 
+
+$$
+\log p_\theta(x) = \log \int p_\theta(x, z)\,dz
+$$
+
+를 직접 계산하는 것이 어렵다. $z$에 대한 적분을 수행하기 위해 Monte-Carlo sampling으로 수많은 시행을 거쳐야 하는 것이다. 
+
+따라서 계산하기 쉬운 분포, $q(z)$를 집어넣고 Jensen 부등식을 활용하여 아래와 같은 식을 얻을 수 있다.
+
+$$
+\log p_\theta(x) \ge \mathbb{E}_{q(z)}[\log \frac{p_\theta(x, z)}{q(z)}]
+$$
+
+이 오른쪽 항을 우리는 ELBO라고 일컫는 것이다. 즉, 계산하기 어려운 log evidence를 계산 가능한 lower bound로 바꿀 수 있게 된다.
+
+논문들을 읽다보면 수식 전개가 갑작스러운 것 같지만, 우리는 encoder와 decoder의 목적이 각각 $q(z)$와 $p_\theta(x \mid z)$를 학습하는 것이라는 사실을 안다.
+따라서 위 ELBO 식을 이 확률 분포로 표현함으로써, 제안된 생성 모델이 최적화해야 할 값들을 수식적으로 유도할 수 있을 것이다. Bayes' theorem을 사용하면
+
+$$
+\begin{aligned}
+\mathcal{L}(q, \theta) &= \mathbb{E}_{q(z)}[\log \frac{p_\theta(x, z)}{q(z)}] \\
+&= \mathbb{E}_{q_\phi(z \mid x)}[\log p_\theta(x \mid z)] - D_{KL}(q_\phi(z \mid x) \| \,p(z)) 
+\end{aligned}
+$$
+
+가 됨을 쉽게 알 수 있다. 
+
+여기서 마지막 줄의 첫 번째 항을 reconstruction term, 두 번째 항을 prior matching term이라고 한다.
+즉, 우리의 근사적인 목표는 아래와 같아진다.
+
+1. encoder로부터 정해진 $z$ 분포에서 decoder에 의해 생성되는 $x$의 likelihood를 최대한 크게 할 것.
+2. 그와 동시에, encoder는 주어진 입력을 최대한 $z$의 prior에 맞추어 latent space에 배치시킬 것.
+
+이는 직관적으로도 수식적으로도 매우 명확하고 타당한 결론이다.
+
+**2\) Training the decoder**
+
+이제 decoder training을 위해 gradient ascent (loss의 최소화가 아닌, likelihood의 최대화라는 관점에서 descent가 아닌 ascent이다)를 활용해보자.
+
+먼저 **prior matching term**의 경우, 식에서 바로 알 수 있듯 encoder parameter $\theta$에 의존하지 않는다. 
+
+**Reconstruction term**의 경우는 어떠한가? Encoder parameter가 고정되었다는 가정 하에, 주어진 입력에 의해 $z$의 분포는 deterministic하게 결정된다. 
+이에 $z$ 를 sampling하고 해당 $z$ 가 더 높은 likelihood로 해당 입력을 출력하도록 parameter를 수정할 수 있을 것이다.
+
+이 것이 decoder를 학습하는 방법이다. 
+
+**3\) Training the encoder**
+
+Encoder 학습에 있어서 **Prior matching term**은 encoder parameter에 대해 쉽게 back-propagation이 가능하다. $q_\phi(z \mid x)$ 와 $p(z)$가 모두 잘 알려진 분포인 경우 (i.e, Gaussian distribution) closed form으로 해당 항을 쉽게 계산할 수 있기 때문이다.
+따라서 해당 항의 gradient를 찾는 것 또한 decoder와 encoder의 parameter 모두의 관점에서 어렵지 않다.
+이에 모델은 쉽게 '내가 어떤 방향으로 parameter를 업데이트해야 주어진 입력에 대한 $z$의 분포가 $z$의 marginal distribution과 비슷해지는지 학습할 수 있게 된다.
+
+반면 **reconstruction term**을 encoder parameter에 대해 미분할 때 문제가 생긴다. 그 이유에 대해 살펴보기 위해 아래 수식을 관찰하자. 
+
+$$
+\begin{aligned}
+\nabla_{\phi}\,\mathbb{E}_{q_{\phi}(z \mid x)}[\log p_\theta(x \mid z)]
+&=
+\mathbb{E}_{q_{\phi}(z)}
+\left[
+\log p_\theta(x \mid z)\nabla_{\phi}\log q_{\phi}(z \mid x)
+\right] \\
+&\simeq
+\frac{1}{L}
+\sum_{l=1}^{L}
+\log p_\theta\!\left(x \mid z^{(l)}\right)
+\nabla_{\phi}\log q_{\phi}\!\left(z^{(l)} \mid x\right).
+\end{aligned}
+$$
+
+위 식의 의미는 아래와 같다. 주어진 모델이 encoder에 의해 정해진 $z$의 분포로부터 더 그럴 듯하게 입력을 생성하기 위해서는, 더 그럴 듯하게 입력을 생성하는 $z$들이 encoder에 의해 더 높은 posterior를 가져야 한다는 것이다.
+
+이 방식으로 학습을 진행하기 위해서 random하게 latent variable들을 sampling하고, $p_\theta(x \mid z)$를 계산해야 한다. 이를 가중치로 삼고, 계산된 $q$의 gradient와의 곱으로 parameter를 update하는 것이다.
+
+그러나 해당 방식은 Monte-Carlo estimation 시 randomness에 큰 영향을 받는다는 치명적인 단점이 있다. 
+이는 sampled $z$가 받은 score(이 맥락에서는 $p_\theta(x \mid z)$를 의미한다)가 $z$의 분포와 sampling 시의 randomness 모두에 영향을 받기 때문이다. 
+
+여기서 저자들의 가장 중요한 아이디어가 탄생한다. 바로 **Reparameterization Trick**이다.
+
+Reparameterization trick은 random variable $z$를 deterministic variable 
+$z = g_\phi(\epsilon, x)$로 표현한다.  
+
+여기서 latent variable의 randomness는 $\epsilon$이 흡수하게 되고, $g$는 이 randomness를 $z$에 반영하는 역할을 수행하는 것이다. 
+이제 latent variable이 deterministic variable이 되었으므로, 우리는 gradient를 encoder에 전달할 수 있다.
+
+설명이 매우 추상적으로 느껴지나, 이 아이디어를 직관적으로 이해해보면 아래와 같다.
+Reconstruction 항은 명백히 encoder와 decoder parameter 모두에 영향을 받는다. Encoder가 $z$의 '선택'에 영향을 미치면, 이 $z$로부터 $x$가 그럴 듯하게 뽑히도록 decoder가 구성되어야 하는 것이다.
+따라서 우리는 gradient ascent 방식으로 encoder와 decoder의 parameter를 jointly 업데이트하고자 한다. 
+그러나 score-function 방식은 현재 decoder의 score만을 바탕으로 encoder의 update 방향성을 판단하는 방식이므로, back-propagation 과정에서 새로운 random variable $\epsilon$을 새로 도입, 이를 상수로 간주하여
+encoder의 parameter를 joint한 방식으로 업데이트할 수 있도록 만든다.
+
+이제, 이 방식으로 reconstruction term의 gradient를 encoder와 decoder에 동시에 전달할 수 있다.
+
+1. $\epsilon$을 random sampling한다.
+2. $g_\phi(\epsilon, x)$에 의해 결정된 $z$를 decoder에 forward-propagation한다.
+3. back-propagation을 활용해 encoder와 decoder의 parameter를 수정한다. (prior-matching term 또한 고려되어야 한다.) 
+
+
+</section>
