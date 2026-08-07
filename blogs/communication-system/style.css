@@ -1,0 +1,349 @@
+/* =========================
+   Communication system category page
+========================= */
+
+body.communication-system-page-body {
+  display: block;
+  min-height: 100vh;
+}
+
+
+/* =========================
+   전체 페이지 영역
+========================= */
+
+.communication-system-page {
+  position: relative;
+  z-index: 0;
+
+  width: min(1120px, 88%);
+  margin: 0 auto;
+
+  /*
+    고정 헤더 아래에서 시작한다.
+    루트 style.css에 --header-height가 없어도
+    기본값 96px을 사용한다.
+  */
+  padding-top: calc(var(--header-height, 96px) + 58px);
+  padding-bottom: 110px;
+}
+
+
+/* =========================
+   상단 소개
+========================= */
+
+.communication-system-hero {
+  max-width: 850px;
+  margin-bottom: 96px;
+}
+
+.breadcrumb {
+  margin-bottom: 38px;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  color: #aaaaaa;
+
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+.breadcrumb a {
+  color: #888888;
+  text-decoration: none;
+
+  transition: color 0.2s ease;
+}
+
+.breadcrumb a:hover {
+  color: #111111;
+}
+
+.communication-system-eyebrow {
+  margin-bottom: 14px;
+
+  color: #999999;
+
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.communication-system-title {
+  margin: 0;
+
+  color: #111111;
+
+  font-size: clamp(4rem, 9vw, 7.5rem);
+  font-weight: 600;
+  letter-spacing: -0.065em;
+  line-height: 0.9;
+}
+
+.communication-system-description {
+  max-width: 680px;
+  margin-top: 34px;
+
+  color: #8b8b8b;
+
+  font-size: clamp(1rem, 1.8vw, 1.2rem);
+  font-weight: 400;
+  line-height: 1.75;
+}
+
+
+/* =========================
+   섹션 제목
+========================= */
+
+.communication-system-topics {
+  padding-top: 52px;
+
+  border-top: 1px solid #dddddd;
+}
+
+.section-heading {
+  margin-bottom: 38px;
+}
+
+.section-label {
+  margin-bottom: 9px;
+
+  color: #aaaaaa;
+
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.section-heading h2 {
+  margin: 0;
+
+  color: #171717;
+
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 600;
+  letter-spacing: -0.045em;
+}
+
+
+/* =========================
+   주제 카드
+========================= */
+
+.topic-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.topic-panel {
+  min-width: 0;
+  padding: 30px;
+
+  display: flex;
+  flex-direction: column;
+
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 16px;
+
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.topic-panel:hover {
+  transform: translateY(-4px);
+
+  border-color: #c6c6c6;
+
+  box-shadow:
+    0 18px 45px rgba(0, 0, 0, 0.055);
+}
+
+.topic-header {
+  min-height: 132px;
+}
+
+.topic-header h3 {
+  margin: 0 0 13px;
+
+  color: #191919;
+
+  font-size: clamp(1.45rem, 2.5vw, 2rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.15;
+}
+
+.topic-header p {
+  max-width: 390px;
+
+  color: #999999;
+
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+
+/* =========================
+   글 목록
+========================= */
+
+.note-list {
+  margin-top: 28px;
+
+  border-top: 1px solid #ececec;
+}
+
+.note-link {
+  padding: 18px 2px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+
+  color: #222222;
+  text-decoration: none;
+
+  border-bottom: 1px solid #eeeeee;
+
+  transition:
+    color 0.2s ease,
+    padding-left 0.2s ease;
+}
+
+.note-link:last-child {
+  border-bottom: none;
+}
+
+.note-link:hover {
+  color: #000000;
+  padding-left: 6px;
+}
+
+.note-link span:first-child {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.note-link strong {
+  color: inherit;
+
+  font-size: 0.96rem;
+  font-weight: 550;
+  line-height: 1.45;
+}
+
+.note-link small {
+  color: #a0a0a0;
+
+  font-size: 0.78rem;
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+.note-arrow {
+  flex-shrink: 0;
+
+  color: #bbbbbb;
+
+  font-size: 1rem;
+  line-height: 1.4;
+
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.note-link:hover .note-arrow {
+  color: #111111;
+  transform: translate(3px, -3px);
+}
+
+
+/* =========================
+   모바일 화면
+========================= */
+
+@media (max-width: 760px) {
+  .communication-system-page {
+    width: 88%;
+
+    padding-top:
+      calc(var(--header-height, 76px) + 42px);
+
+    padding-bottom: 75px;
+  }
+
+  .communication-system-hero {
+    margin-bottom: 68px;
+  }
+
+  .breadcrumb {
+    margin-bottom: 30px;
+  }
+
+  .communication-system-title {
+    font-size: clamp(3.6rem, 17vw, 5.3rem);
+  }
+
+  .communication-system-description {
+    margin-top: 26px;
+  }
+
+  .communication-system-topics {
+    padding-top: 38px;
+  }
+
+  .section-heading {
+    margin-bottom: 28px;
+  }
+
+  .topic-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .topic-panel {
+    padding: 25px 21px;
+    border-radius: 13px;
+  }
+
+  .topic-header {
+    min-height: auto;
+  }
+
+  .topic-header p {
+    margin-bottom: 28px;
+  }
+
+  .note-list {
+    margin-top: 0;
+  }
+}
+
+
+/* =========================
+   모션 감소 설정
+========================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .topic-panel,
+  .note-link,
+  .note-arrow {
+    transition: none;
+  }
+}
